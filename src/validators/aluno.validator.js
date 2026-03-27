@@ -8,6 +8,12 @@ const alunoSchema = z.object({
 });
 
 // Criando o esquema de atualização (tudo vai virar opcional automaticamente)
-const updateAlunoSchema = alunoSchema.partial();
+// Schema de atualização (PUT)
+const updateAlunoSchema = alunoSchema.partial().refine((data) => {
+  // Verifica se o objeto tem pelo menos uma chave (um campo preenchido)
+  return Object.keys(data).length > 0;
+}, {
+  message: "Você deve fornecer pelo menos um campo para atualização"
+});
 
 module.exports = {alunoSchema, updateAlunoSchema}

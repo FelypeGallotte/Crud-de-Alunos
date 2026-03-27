@@ -2,6 +2,13 @@
 
 const alunoRepository = require('../repositories/aluno.repository');
 
+// função para verificar a situação do aluno
+function mapearSituação(aluno){
+    return {
+            ...aluno,
+            situacao: aluno.nota >= 6 ? "APROVADO" : "REPROVADO"
+        };
+}
 
 //função para criar aluno no banco
 async function criarAluno(dados) {
@@ -11,12 +18,7 @@ async function criarAluno(dados) {
 //função para listar os alunos que tem no banco
 async function listarAlunos() {
     const alunos = await alunoRepository.findAll();
-    return alunos.map(aluno => {
-        return {
-            ...aluno,
-            situacao: aluno.nota >= 6 ? "APROVADO" : "REPROVADO"
-        };
-    });
+    return alunos.map(mapearSituação);
     
 }
 
@@ -26,10 +28,7 @@ async function buscarAlunosPorId(id) {
     
     // Se o aluno existir, também adicionamos a situação dele aqui
     if (aluno) {
-        return {
-            ...aluno,
-            situacao: aluno.nota >= 6 ? "APROVADO" : "REPROVADO"
-        };
+        return mapearSituação(aluno);
     }
     
     return null;
