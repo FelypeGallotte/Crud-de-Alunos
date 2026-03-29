@@ -1,5 +1,8 @@
+require('dotenv').config();
+
 // importa o express
 const express = require("express")
+
 // importa o modulo de routes
 const alunosRoutes = require('./routes/alunos_routes')
 

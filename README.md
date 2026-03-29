@@ -9,6 +9,7 @@ Esta é uma API robusta para gerenciamento de alunos, desenvolvida com **Node.js
 * **Banco de Dados:** [PostgreSQL](https://www.postgresql.org/) (via Docker ou Local)
 * **ORM:** [Prisma](https://www.prisma.io/)
 * **Validação:** [Zod](https://zod.dev/)
+* **Segurança:** [Dotenv](https://www.npmjs.com/package/dotenv) (Variáveis de ambiente)
 * **Linguagem:** JavaScript (ES6+)
 
 ---
@@ -46,6 +47,12 @@ Crie um arquivo `.env` na raiz do projeto e adicione a URL de conexão com o seu
 ```env
 DATABASE_URL="postgresql://usuario:senha@localhost:5432/nome_do_banco?schema=public"
 ```
+### 3.1. Configurar Chave de Segurança
+No mesmo arquivo `.env`, defina uma chave para proteger suas rotas de escrita (POST, PUT, DELETE):
+
+```env
+API_KEY="admin123"
+```
 
 ### 4. Rodar as Migrations do Prisma
 ```bash
@@ -64,13 +71,13 @@ A API estará disponível em:
 
 ## 🛣️ Endpoints da API
 
-| Método | Endpoint     | Descrição |
-|--------|--------------|----------|
-| POST   | /alunos      | Cria um novo aluno (Validação rigorosa com Zod) |
-| GET    | /alunos      | Lista todos os alunos (Inclui campo dinâmico de Situação) |
-| GET    | /alunos/:id  | Busca um aluno específico pelo ID |
-| PUT    | /alunos/:id  | Atualiza dados de um aluno (Validação parcial permitida) |
-| DELETE | /alunos/:id  | Remove um aluno do sistema |
+| Método | Endpoint      | Descrição | Protegido |
+|--------|--------------|-----------|:---:|
+| POST   | /alunos      | Cria um novo aluno | 🔒 Sim |
+| GET    | /alunos      | Lista todos os alunos | Não |
+| GET    | /alunos/:id  | Busca aluno por ID | Não |
+| PUT    | /alunos/:id  | Atualiza dados de um aluno | 🔒 Sim |
+| DELETE | /alunos/:id  | Remove um aluno | 🔒 Sim |
 
 ---
 
@@ -87,6 +94,17 @@ Você pode testar todos os endpoints utilizando o **Postman** ou qualquer ferram
 ```
 http://localhost:3000
 ```
+
+
+## 🛡️ Como testar rotas protegidas (Postman)
+
+As rotas de **Criação, Atualização e Deleção** exigem uma chave de API para funcionar. Se você não enviar a chave, receberá um erro `401 Unauthorized`.
+
+### Configurando o Header:
+1. No Postman, selecione a aba **Headers** (ao lado de Body).
+2. No campo **Key**, digite: `x-api-key`.
+3. No campo **Value**, digite a chave que você definiu no seu `.env` (ex: `admin123`).
+4. Certifique-se de que a caixa de seleção ao lado da Key está marcada.
 
 ---
 
@@ -161,10 +179,10 @@ Para garantir dados limpos, as seguintes regras foram aplicadas:
 
 ## 🔒 Próximos Passos
 
-- [ ] Implementação de Middleware de Autenticação (API Key / JWT)
+- [x] Implementação de Middleware de Autenticação (API Key)
 - [ ] Desenvolvimento do Frontend (React + Vite)
-- [ ] Implementação de Testes Automatizados
-
+- [ ] Implementação de Testes Automatizados com Jest/Vitest
+- [ ] Implementação de JWT (Json Web Token) para login de usuários
 ---
 
 ## 👨‍💻 Autor
