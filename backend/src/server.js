@@ -1,3 +1,4 @@
+const cors = require('cors')
 require('dotenv').config();
 
 // importa o express
@@ -8,6 +9,7 @@ const alunosRoutes = require('./routes/alunos_routes')
 
 // criando aplicação express
 const app = express()
+app.use(cors())
 // para permitir que o programa leia json
 app.use(express.json())
 
