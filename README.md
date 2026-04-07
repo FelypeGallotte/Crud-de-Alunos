@@ -1,122 +1,186 @@
-# 📚 CRUD de Alunos - API REST
+# 🎓 Sistema de Controle Acadêmico - Full Stack
 
-Esta é uma API robusta para gerenciamento de alunos, desenvolvida com **Node.js** e **Prisma ORM**. O projeto segue padrões de mercado como a **Arquitetura em Camadas (Controller, Service, Repository)** e possui validação rigorosa de dados para garantir a integridade do sistema acadêmico.
+Este projeto é um **ecossistema completo para gerenciamento de alunos**, composto por uma **API REST robusta** integrada a uma **Interface Web moderna e reativa**.  
+
+A aplicação permite o controle total de registros acadêmicos, com **validações rigorosas, segurança e atualização em tempo real**.
+
+---
 
 ## 🛠️ Tecnologias Utilizadas
 
-* **Runtime:** [Node.js](https://nodejs.org/)
-* **Framework:** [Express](https://expressjs.com/)
-* **Banco de Dados:** [PostgreSQL](https://www.postgresql.org/) (via Docker ou Local)
-* **ORM:** [Prisma](https://www.prisma.io/)
-* **Validação:** [Zod](https://zod.dev/)
-* **Segurança:** [Dotenv](https://www.npmjs.com/package/dotenv) (Variáveis de ambiente)
-* **Linguagem:** JavaScript (ES6+)
+### 🔙 Backend (Cérebro)
+
+- **Runtime:** Node.js  
+- **Framework:** Express  
+- **Banco de Dados:** PostgreSQL (via Docker ou Local)  
+- **ORM:** Prisma  
+- **Validação:** Zod  
+- **Segurança:** Dotenv (variáveis de ambiente + API Key)  
+- **Arquitetura:** Controller, Service, Repository  
+
+---
+
+### 🎨 Frontend (Interface)
+
+- **Framework:** React + Vite  
+- **Linguagem:** TypeScript  
+- **Consumo de API:** Axios  
+- **Segurança:** Interceptors com API Key  
+- **Arquitetura:** Componentização (Formulário, Tabela, Botões reutilizáveis)  
 
 ---
 
 ## 🏗️ Arquitetura do Projeto
 
-O projeto foi estruturado para ser escalável e fácil de manter, separando responsabilidades de forma clara:
+### 📦 Backend
 
-1.  **Routes:** Define os endpoints e direciona as requisições.
-2.  **Controllers:** Gerencia a entrada das requisições HTTP e define os Status Codes de resposta.
-3.  **Validators (Zod):** Camada de segurança que garante que os dados de entrada estão no formato correto.
-4.  **Services:** Onde reside a **Lógica de Negócio** (ex: cálculo automático de situação Aprovado/Reprovado).
-5.  **Repositories:** Camada isolada que se comunica exclusivamente com o banco de dados via Prisma.
+1. **Routes** → Define os endpoints  
+2. **Controllers** → Gerencia requisições HTTP  
+3. **Validators (Zod)** → Garante integridade dos dados  
+4. **Services** → Lógica de negócio  
+5. **Repositories** → Comunicação com banco via Prisma  
+
+---
+
+### 💻 Frontend
+
+- Consumo da API REST  
+- Interface reativa  
+- Componentes reutilizáveis  
+
+---
+
+## 📁 Estrutura do Projeto
+
+```
+/backend   → API e regras de negócio
+/frontend  → Interface React
+```
 
 ---
 
 ## 🚀 Como Executar o Projeto
 
 ### 1. Clonar o repositório
+
 ```bash
-git clone [https://github.com/SEU_USUARIO/NOME_DO_REPOSITORIO.git](https://github.com/SEU_USUARIO/NOME_DO_REPOSITORIO.git)
-cd crud-alunos-node
+git clone https://github.com/SEU_USUARIO/NOME_DO_REPOSITORIO.git
+cd crud-de-alunos
 ```
 
+---
+
+## 🔙 Backend
+
 ### 2. Instalar dependências
+
 ```bash
+cd backend
 npm install
 ```
 
-
-
-### 3. Configurar Variáveis de Ambiente
-Crie um arquivo `.env` na raiz do projeto e adicione a URL de conexão com o seu banco de dados:
+### 3. Configurar .env
 
 ```env
 DATABASE_URL="postgresql://usuario:senha@localhost:5432/nome_do_banco?schema=public"
-```
-### 3.1. Configurar Chave de Segurança
-No mesmo arquivo `.env`, defina uma chave para proteger suas rotas de escrita (POST, PUT, DELETE):
-
-```env
 API_KEY="admin123"
 ```
 
-### 4. Rodar as Migrations do Prisma
+### 4. Rodar migrations
+
 ```bash
 npx prisma migrate dev
 ```
 
-### 5. Iniciar o Servidor
+### 5. Iniciar servidor
+
 ```bash
 npm run dev
 ```
 
-A API estará disponível em:  
 👉 http://localhost:3000
+
+---
+
+## 💻 Frontend
+
+### 6. Instalar dependências
+
+```bash
+cd frontend
+npm install
+```
+
+### 7. Configurar .env
+
+```env
+VITE_API_URL="http://localhost:3000"
+VITE_API_KEY="admin123"
+```
+
+### 8. Iniciar aplicação
+
+```bash
+npm run dev
+```
+
+👉 http://localhost:5173
 
 ---
 
 ## 🛣️ Endpoints da API
 
-| Método | Endpoint      | Descrição | Protegido |
-|--------|--------------|-----------|:---:|
-| POST   | /alunos      | Cria um novo aluno | 🔒 Sim |
-| GET    | /alunos      | Lista todos os alunos | Não |
-| GET    | /alunos/:id  | Busca aluno por ID | Não |
-| PUT    | /alunos/:id  | Atualiza dados de um aluno | 🔒 Sim |
-| DELETE | /alunos/:id  | Remove um aluno | 🔒 Sim |
+| Método | Endpoint      | Descrição            | Protegido |
+|--------|--------------|---------------------|----------|
+| POST   | /alunos      | Criar aluno         | 🔒 Sim   |
+| GET    | /alunos      | Listar alunos       | ❌ Não   |
+| GET    | /alunos/:id  | Buscar por ID       | ❌ Não   |
+| PUT    | /alunos/:id  | Atualizar aluno     | 🔒 Sim   |
+| DELETE | /alunos/:id  | Deletar aluno       | 🔒 Sim   |
 
 ---
 
-## 🧪 Testando a API com Postman
+## 🔒 Segurança
 
-Você pode testar todos os endpoints utilizando o **Postman** ou qualquer ferramenta similar (Insomnia, Thunder Client, etc.).
+Rotas POST, PUT e DELETE usam **API Key**.
 
-### 🔹 Passo a passo
+Header obrigatório:
 
-1. Abra o Postman
-2. Crie uma nova requisição
-3. Escolha o método HTTP (GET, POST, PUT, DELETE)
-4. Use a URL base:
-```
-http://localhost:3000
+```txt
+x-api-key
 ```
 
+Erro sem chave:
 
-## 🛡️ Como testar rotas protegidas (Postman)
-
-As rotas de **Criação, Atualização e Deleção** exigem uma chave de API para funcionar. Se você não enviar a chave, receberá um erro `401 Unauthorized`.
-
-### Configurando o Header:
-1. No Postman, selecione a aba **Headers** (ao lado de Body).
-2. No campo **Key**, digite: `x-api-key`.
-3. No campo **Value**, digite a chave que você definiu no seu `.env` (ex: `admin123`).
-4. Certifique-se de que a caixa de seleção ao lado da Key está marcada.
+```txt
+401 Unauthorized
+```
 
 ---
 
-### 🔸 Exemplo: Criar um aluno (POST /alunos)
+## 🔄 Fluxo
 
-- Método: `POST`
-- URL:  
-```
-http://localhost:3000/alunos
-```
+1. React envia requisição  
+2. Axios injeta API Key  
+3. Backend valida com Zod  
+4. Service aplica regra  
+5. Prisma salva  
+6. Front atualiza automaticamente  
 
-- Body (JSON):
+---
+
+## 🧪 Testes
+
+Use:
+
+- Postman  
+- Insomnia  
+- Thunder Client  
+
+---
+
+### Criar aluno
+
 ```json
 {
   "nome": "João Silva",
@@ -128,25 +192,8 @@ http://localhost:3000/alunos
 
 ---
 
-### 🔸 Exemplo: Listar alunos (GET /alunos)
+### Atualizar aluno
 
-- Método: `GET`
-- URL:
-```
-http://localhost:3000/alunos
-```
-
----
-
-### 🔸 Exemplo: Atualizar aluno (PUT /alunos/:id)
-
-- Método: `PUT`
-- URL:
-```
-http://localhost:3000/alunos/1
-```
-
-- Body (JSON - parcial permitido):
 ```json
 {
   "nota": 9
@@ -155,36 +202,36 @@ http://localhost:3000/alunos/1
 
 ---
 
-### 🔸 Exemplo: Deletar aluno (DELETE /alunos/:id)
+## 🛡️ Validações
 
-- Método: `DELETE`
-- URL:
-```
-http://localhost:3000/alunos/1
-```
-
----
-
-
-## 🛡️ Validações Implementadas (Zod)
-
-Para garantir dados limpos, as seguintes regras foram aplicadas:
-
-- **Nome:** Mínimo de 3 caracteres e remoção automática de espaços inúteis (`.trim()`).
-- **E-mail:** Validação de formato e restrição de unicidade no banco.
-- **Matrícula:** Campo obrigatório, único e com tamanho mínimo seguro.
-- **Nota:** Conversão automática para número (`coerce`) e intervalo entre 0 e 10.
+- Nome mínimo 3 caracteres  
+- Email válido e único  
+- Matrícula única  
+- Nota entre 0 e 10  
 
 ---
 
-## 🔒 Próximos Passos
+## 🔒 Funcionalidades
 
-- [x] Implementação de Middleware de Autenticação (API Key)
-- [ ] Desenvolvimento do Frontend (React + Vite)
-- [ ] Implementação de Testes Automatizados com Jest/Vitest
-- [ ] Implementação de JWT (Json Web Token) para login de usuários
+- [x] CRUD completo  
+- [x] Arquitetura em camadas  
+- [x] Validação com Zod  
+- [x] API Key  
+- [x] Interface reativa  
+- [x] Integração fullstack  
+
+---
+
+## 🚀 Próximos passos
+
+- [ ] Testes (Jest/Vitest)  
+- [ ] JWT  
+- [ ] Docker  
+- [ ] Deploy  
+
 ---
 
 ## 👨‍💻 Autor
 
-Desenvolvido por **Felype Gallotte**  
+Felype Gallotte  
+Desenvolvedor Full Stack 🚀
